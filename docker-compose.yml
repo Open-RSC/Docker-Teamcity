@@ -1,0 +1,22 @@
+version: '3'
+services:
+
+  teamcity:
+    container_name: teamcity
+    image: jetbrains/teamcity-server:latest
+    restart: always
+    hostname: ${TEAMCITY_HOSTNAME}
+    environment:
+      VIRTUAL_HOST: ${TEAMCITY_HOSTNAME}
+      LETSENCRYPT_HOST: ${TEAMCITY_HOSTNAME}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    ports:
+      - '8111:8111'
+    volumes:
+      - './datadir:/data/teamcity_server/datadir'
+#      - '/var/log/teamcity:/opt/teamcity/logs'
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
