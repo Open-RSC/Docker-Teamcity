@@ -21,8 +21,10 @@ services:
     image: jetbrains/teamcity-agent:latest
     restart: always
     hostname: ${TEAMCITY_HOSTNAME}
+    links:
+      - teamcity
     environment:
-      SERVER_URL: ${TEAMCITY_HOSTNAME}
+      - SERVER_URL=http://teamcity:8111
     volumes:
       - './agent/conf:/data/teamcity_agent/conf'
       - './agent/work:/opt/buildagent/work'
