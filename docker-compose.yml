@@ -16,6 +16,18 @@ services:
       - './datadir:/data/teamcity_server/datadir'
 #      - '/var/log/teamcity:/opt/teamcity/logs'
 
+  teamcity-agent:
+    container_name: teamcity_agent
+    image: jetbrains/teamcity-agent:latest
+    restart: always
+    hostname: ${TEAMCITY_HOSTNAME}
+    environment:
+      SERVER_URL: ${TEAMCITY_HOSTNAME}
+    volumes:
+      - './agent/conf:/data/teamcity_agent/conf'
+      - './agent/work:/opt/buildagent/work'
+      - './agent/system:/opt/buildagent/system'
+
 networks:
   default:
     external:
