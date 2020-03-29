@@ -10,4 +10,22 @@ services:
       - '8111:8111'
     volumes:
       - './datadir:/data/teamcity_server/datadir'
-      - './logs:/opt/teamcity/logs'
+  teamcity-agent:
+
+    container_name: teamcity_agent
+    image: jetbrains/teamcity-agent:latest
+    restart: always
+    hostname: ${TEAMCITY_HOSTNAME}
+    links:
+      - teamcity
+    environment:
+      - SERVER_URL=http://teamcity:8111
+    volumes:
+      - './agent/conf:/data/teamcity_agent/conf'
+      - './agent/work:/opt/buildagent/work'
+      - './agent/system:/opt/buildagent/system'
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
