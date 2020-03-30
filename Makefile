@@ -16,7 +16,7 @@ start:
 	sudo docker-compose up -d
 
 stop:
-	sudo @docker-compose down -v
+	sudo docker-compose down -v
 
 restart:
 	sudo docker-compose down -v
