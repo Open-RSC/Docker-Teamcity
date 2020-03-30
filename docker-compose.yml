@@ -7,40 +7,40 @@ services:
     restart: always
     hostname: ${TEAMCITY_HOSTNAME}
     ports:
-      - "80:80"
-      - "443:443"
+      - '8080:8080'
     volumes:
       - './nginx/conf/default.conf:/etc/nginx/conf.d/default.conf'
       - './vhost:/etc/nginx/vhost.d'
       - './nginx/html:/usr/share/nginx/html'
-      - './nginx/certs:/etc/nginx/ssl'
+      - './nginx/ssl:/etc/nginx/ssl'
       - './nginx/log:/var/log/nginx'
 
   teamcity:
     container_name: teamcity
     image: jetbrains/teamcity-server:latest
     restart: always
-    hostname: ${TEAMCITY_HOSTNAME}
+    hostname: teamcity
     ports:
       - '8111:8111'
     volumes:
-      - './datadir:/data/teamcity_server/datadir'
-  teamcity-agent:
+      - './data_dir:/data/teamcity_server/datadir'
+      - './log_dir:/opt/teamcity/logs'
 
+  teamcity-agent:
     container_name: teamcity_agent
     image: jetbrains/teamcity-agent:latest
     restart: always
-    hostname: ${TEAMCITY_HOSTNAME}
-    links:
-      - teamcity
     environment:
       - SERVER_URL=http://teamcity:8111
+      - AGENT_NAME=regular_agent
     volumes:
       - './agent/conf:/data/teamcity_agent/conf'
       - './agent/work:/opt/buildagent/work'
       - './agent/system:/opt/buildagent/system'
 
-networks:
-  default:
-    external:
-      name: nginx-proxy
+  teamcity-minimal-agent:
+    container_name: teamcity_minimal_agent
+    image: jetbrains/teamcity-minimal-agent
+    environment:
+      - SERVER_URL=http://teamcity:8111
+      - AGENT_NAME=minimal_agent

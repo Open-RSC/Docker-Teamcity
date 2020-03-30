@@ -1,9 +1,6 @@
 include .env
 MYSQL_DUMPS_DIR=./backups
 
-install:
-	sudo docker network create nginx-proxy
-
 update:
 	sudo docker-compose down -v
 	sudo docker image rm jetbrains/teamcity-server
