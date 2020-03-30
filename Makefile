@@ -5,28 +5,28 @@ install:
 	sudo docker network create nginx-proxy
 
 update:
-	@docker-compose down -v
+	sudo @docker-compose down -v
 	sudo docker image rm jetbrains/teamcity-server
-	docker-compose up -d
+	sudo docker-compose up -d
 
 logs:
-	@docker-compose logs -f
+	sudo @docker-compose logs -f
 
 start:
-	docker-compose up -d
+	sudo docker-compose up -d
 
 stop:
-	@docker-compose down -v
+	sudo @docker-compose down -v
 
 restart:
-	@docker-compose down -v
-	docker-compose up -d
+	sudo @docker-compose down -v
+	sudo docker-compose up -d
 
 ps:
-	docker-compose ps
+	sudo docker-compose ps
 
 create-database:
-	docker exec -i mysql mysql -u${MARIADB_ROOT_USER} -p${MARIADB_ROOT_PASSWORD} -e "create database teamcity;"
+	sudo docker exec -i mariadb mysql -u${MARIADB_ROOT_USER} -p${MARIADB_ROOT_PASSWORD} -e "create database teamcity;"
 
 backup:
 	@mkdir -p $(MYSQL_DUMPS_DIR)
