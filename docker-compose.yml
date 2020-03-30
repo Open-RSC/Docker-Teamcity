@@ -1,6 +1,21 @@
 version: '3'
 services:
 
+  nginx:
+    container_name: nginx-teamcity
+    image: nginx:latest
+    restart: always
+    hostname: ${TEAMCITY_HOSTNAME}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - './nginx/conf/default.conf:/etc/nginx/conf.d/default.conf'
+      - './vhost:/etc/nginx/vhost.d'
+      - './nginx/html:/usr/share/nginx/html'
+      - './nginx/certs:/etc/nginx/ssl'
+      - './nginx/log:/var/log/nginx'
+
   teamcity:
     container_name: teamcity
     image: jetbrains/teamcity-server:latest
